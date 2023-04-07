@@ -17,6 +17,7 @@ public class Person {
 
     @Column(name = "id_number")
     private int idNumber;
+
     @Column(name = "phone", nullable = true)
     private int phone;
 

@@ -3,6 +3,7 @@ package teka.web.referral_modulev0.models.core.utils;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import teka.web.referral_modulev0.models.core.Hospital;
 import teka.web.referral_modulev0.models.core.Visit;
 import teka.web.referral_modulev0.models.core.users.Patient;
@@ -37,6 +38,8 @@ public class Encounter {
     @JoinColumn(name = "visit_id", nullable = false)
     private Visit visit;
 
+
+    @CreationTimestamp
     @Column(name = "encounter_date")
     private LocalDate date;
 
