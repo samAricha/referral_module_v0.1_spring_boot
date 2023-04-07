@@ -37,8 +37,11 @@ public class Visit {
     private VisitStatus visitStatus;
 
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "visit_time", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = "visit_reason")
+    private String reason;
 
 
 }

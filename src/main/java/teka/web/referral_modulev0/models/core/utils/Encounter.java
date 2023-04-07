@@ -9,6 +9,8 @@ import teka.web.referral_modulev0.models.core.users.Patient;
 import teka.web.referral_modulev0.models.core.users.Person;
 import teka.web.referral_modulev0.models.core.users.Physician;
 
+import java.time.LocalDate;
+
 
 @Data
 @Entity
@@ -34,4 +36,10 @@ public class Encounter {
     @ManyToOne
     @JoinColumn(name = "visit_id", nullable = false)
     private Visit visit;
+
+    @Column(name = "encounter_date")
+    private LocalDate date;
+
+    @Column(name = "encounter_notes")
+    private String notes;
 }

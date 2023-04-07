@@ -23,4 +23,14 @@ public class Observation {
     @ManyToOne
     @JoinColumn(name = "encounter_id", referencedColumnName = "id")
     private Encounter encounter;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "concept_id")
+    private Concept concept;
+
+    @Column(name = "observation_value")
+    private String value;
+
+    @Column(name = "observation_unit")
+    private String unit;
 }
