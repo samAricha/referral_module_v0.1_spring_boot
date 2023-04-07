@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register Patient</title>
+  <!-- Add CSS -->
+  <link th:href = "@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href = "@{/css/style.css}" rel="stylesheet">
+  <link th:href = "@{/css/nav_bar.css}" rel="stylesheet">
+  <link th:href = "@{/fontawesome/css/all.css}" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+<!-- Main Content -->
+<main style="margin-top: 80px;">
+  <div class="container-fluid">
+    <h1 class="mb-4">Register Patient</h1>
+    <form th:action="@{/registration/patient}" method="post" class="needs-validation" novalidate >
+      <div class="form-group my-4" th:object="${personDto}">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" class="form-control" th:field="*{username}" required>
+        <div class="invalid-feedback">Please enter a username.</div>
+      </div>
+
+      <div class="form-group my-4" th:object="${personDto}">
+        <label for="idNumber">ID Number:</label>
+        <input type="text" id="idNumber" name="idNumber" class="form-control" th:field="*{idNumber}" placeholder="37xxxxxx" required pattern="[0-9]{8}">
+      </div>
+
+      <div class="form-group my-4" th:object="${personDto}">
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control" th:field="*{phone}" pattern="[0-9]{10}" maxlength="10" placeholder="07xxxxxxxx" required>
+        <div class="invalid-feedback">Please enter a valid phone number.</div>
+      </div>
+
+      <div class="form-group my-4" th:object="${personDto}">
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" class="form-control" th:field="*{gender}">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="non-binary">Non-binary</option>
+        </select>
+      </div>
+
+<!--      <div class="form-group my-4" th:object="${patientDto}">-->
+<!--        <label for="bloodType">Blood Type:</label>-->
+<!--        <input type="text" id="bloodType" name="bloodType" class="form-control" th:field="*{bloodType}">-->
+<!--        <div class="invalid-feedback">Please enter a blood type.</div>-->
+<!--      </div>-->
+
+<!--      <div class="form-group my-4" th:object="${patientDto}">-->
+<!--        <label for="allergies">Allergies:</label>-->
+<!--        <textarea id="allergies" name="allergies" class="form-control" th:field="*{allergies}"></textarea>-->
+<!--      </div>-->
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+  <div style="margin: 100px"></div>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

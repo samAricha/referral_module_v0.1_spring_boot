@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Queue</title>
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link th:href = "@{/css/nav_bar.css}" rel="stylesheet">
+  <link th:href = "@{/fontawesome/css/all.css}" rel="stylesheet">
+
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+
+<main style="margin-top: 58px;">
+
+  <div class="container-fluid">
+
+
+
+    <h1 class="text-center">Queue Record</h1>
+    <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="visitList : ${visitList}" >
+        <td th:text="${visitList.person.username}"></td>
+        <td th:text="${visitList.person.gender}"></td>
+        <td th:text="${visitList.visitStatus}"></td>
+        <td class="text-end">
+          <a th:href="@{/physician/search(visitId=${visitList.getId()})}">
+            <button type="button" class="btn btn-primary rounded-pill">Start Referral</button>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div th:replace="fragments/footer :: footer"></div>
+
+
+  <script th:src="@{/js/jquery.js}"></script>
+  <script th:src="@{/js/nav-sidebar.js}"></script>
+
+</main>
+
+</body>
+</html>

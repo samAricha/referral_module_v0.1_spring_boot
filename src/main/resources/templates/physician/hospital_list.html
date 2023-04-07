@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital List page</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href = "@{/css/nav_bar.css}" rel="stylesheet">
+    <link th:href = "@{/fontawesome/css/all.css}" rel="stylesheet">
+
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+
+<main style="margin-top: 58px;">
+
+    <div class="container-fluid">
+
+        <div class="row" style="padding-top: 58px;">
+            <div class="col-md-6 offset-md-3">
+                <table class="table">
+
+                    <thead>
+                    <tr>
+                        <th>Patient:</th>
+                        <th class="text-primary"  th:text="${person.username}"></th>
+                        <th class="text-primary"  th:text="${person.idNumber}"></th>
+                        <th class="text-primary"  th:text="${person.gender}"></th>
+                    </tr>
+
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+        <h1 class="text-center">Hospitals</h1>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Level</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="hospital : ${hospitals}" >
+                 <td th:text="${hospital.name}"></td>
+                <td th:text="${hospital.location.constituency_name}"></td>
+                <td>Level <span th:text="${hospital.level.level}"></span></td>
+                <td class="text-end">
+                    <a th:href="@{referral/hospital(hospital_id=${hospital.id}, person_id=${person.getId()})}">
+                        <button type="button" class="btn btn-primary rounded-pill">View Details</button>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+
+</main>
+
+</body>
+</html>

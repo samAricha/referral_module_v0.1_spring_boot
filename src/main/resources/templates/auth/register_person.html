@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create a new Person</title>
+  <link th:href = "@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href = "@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <h1 class="mb-4">Create a new Person</h1>
+  <form th:action="@{/person}" method="post" class="needs-validation" novalidate>
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" class="form-control" required>
+      <div class="invalid-feedback">Please enter a username.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="idNumber">ID Number:</label>
+      <input type="number" id="idNumber" name="idNumber" class="form-control" required>
+      <div class="invalid-feedback">Please enter a valid ID number.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="gender">Gender:</label>
+      <select id="gender" name="gender" class="form-control">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="non-binary">Non-binary</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+ <div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

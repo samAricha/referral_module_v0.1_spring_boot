@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Start Encounter</title>
+  <!-- Add CSS -->
+  <link th:href = "@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href = "@{/css/style.css}" rel="stylesheet">
+  <link th:href = "@{/css/nav_bar.css}" rel="stylesheet">
+  <link th:href = "@{/fontawesome/css/all.css}" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+<!-- Main Content -->
+<main class="d-flex flex-column vh-80" style="margin-top: 80px;">
+  <div class="container mt-4 ">
+    <form onsubmit="handleFormSubmit(); return false;">
+      <div class="input-group">
+        <input type="number" class="form-control" id="search-input" placeholder="Enter ID Number..." min="0" step="1" required>
+        <div class="input-group-append">
+          <button type="button" class="btn btn-primary" onclick="handleFormSubmit()">Search</button>
+        </div>
+      </div>
+      <div class="invalid-feedback">
+        Please enter a valid ID Number.
+      </div>
+    </form>
+    <div id="search-results" class="mt-4 d-flex justify-content-center"></div>
+  </div>
+
+
+
+  <div class="mt-auto">
+    <div th:replace="fragments/footer :: footer"></div>
+  </div>
+
+</main>
+
+
+<script th:src="@{/js/jquery.js}"></script>
+<script th:src="@{/js/nav-sidebar.js}"></script>
+<script th:inline="javascript">
+
+  let ajaxData = null;
+  function handleFormSubmit() {
+    // event.preventDefault(); // prevent default form submission behavior
+    const searchTerm = document.getElementById('search-input').value;
+    console.log(searchTerm)
+
+    // Send AJAX request to controller method
+    fetch(`search?term=${searchTerm}`)
+            .then(response => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                throw new Error('Something went wrong');
+              }
+            })
+            .then(data => {
+              // Display search results on page
+              const searchResults = document.getElementById('search-results');
+              searchResults.innerHTML = data;
+
+
+              ajaxData = data;
+              let personsHtml = '';
+              if (data.length === 0) {
+                personsHtml += '<div class="col-md-12"><p>No Person found with the ID Number!.</p></div>'+
+                        '<div class="d-flex justify-content-end m-0 p-0"><button class="btn btn-primary register-person-btn rounded-pill">Register Person</button></div>' ;
+              }
+              personsHtml += '<div class="col-md-8 justify-content-center">' +
+                      '<div class="card box-shadow">' +
+                      '<div class="card-body pt-4">' +
+                      '<h5 >Name     : <strong class="text-primary">' +  data.username.charAt(0).toUpperCase()+data.username.slice(1) + '</strong></h5>' +
+                      '<h5 >ID Number: <strong class="text-primary">' +  data.idNumber + '</strong></h5>' +
+                      '<h5 >Phone    : <strong class="text-primary">+254' +  data.phone + '</strong></h5>' +
+                      '<div class="d-flex justify-content-end m-0 p-0"><button class="btn btn-primary select-person-btn rounded-pill" data-person="' + data + '">Add to Queue</button></div>' +
+                      '</div>' +
+                      '</div>' +
+                      '</div>';
+              $("#search-results").html(personsHtml);
+
+
+            })
+            .catch(error => {
+              console.log(error)
+              //console.error(error);
+              const searchResults = document.getElementById('search-results');
+              searchResults.innerHTML = '<div class="d-flex row justify-content-center"> <h5 class="col-12 text-center">No patient available!!</h5>'+
+                      '<button class="btn btn-primary register-person-btn rounded-pill float-right  mt-3 text-white">Register Patient</button></div>' ;
+            });
+  }
+
+  $(document).on('click', '.select-person-btn', function() {
+
+    const personToQueue = ajaxData;
+    console.log(personToQueue)
+
+    $.ajax({
+      type: "POST",
+      url: "add-to-queue",
+      data: JSON.stringify(personToQueue), // Send the object as JSON data
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(response) {
+        // Handle the response from the controller
+        console.log(response.status);
+        // Display a success message to the user
+        const alertHtml = '<div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">' +
+                '<i class="bi bi-check-circle-fill me-2"></i>' +
+                '<div>Patient added to queue successfully!</div>' +
+                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                '</div>';
+        $('main').prepend(alertHtml);
+
+        // Redirect to a different page after 3 seconds
+        setTimeout(function() {
+          window.location.href = '/home';
+        }, 1500);
+
+      },
+      error: function(xhr, status, error) {
+        // Handle the error
+        console.log(error);
+      }
+    });
+
+
+  });
+
+
+  $(document).on('click', '.register-person-btn', function() {
+
+    window.location.href = '/secretary/check-in/registration/patient-registration';
+
+
+  });
+
+
+
+
+
+  // NB: TO BE LOOKED AT LATER ON
+  // SEARCH FOR RESULTS AS USER TYPES IN SEARCH BOX
+
+  // function search(query) {
+  //   var xhr = new XMLHttpRequest();
+  //   xhr.onreadystatechange = function() {
+  //     if (xhr.readyState === 4 && xhr.status === 200) {
+  //       var response = xhr.responseText;
+  //       var parser = new DOMParser();
+  //       var html = parser.parseFromString(response, 'text/html');
+  //       var products = html.querySelectorAll('li');
+  //       var list = document.querySelector('ul');
+  //       list.innerHTML = '';
+  //       products.forEach(function(product) {
+  //         list.appendChild(product);
+  //       });
+  //     }
+  //   };
+  //   xhr.open('GET', '/search?q=' + query);
+  //   xhr.send();
+  // }
+</script>
+</body>
+</html>

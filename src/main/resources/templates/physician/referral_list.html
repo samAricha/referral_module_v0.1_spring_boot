@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Referrals List</title>
+    <!-- Import Bootstrap CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href = "@{/css/nav_bar.css}" rel="stylesheet">
+    <link th:href = "@{/fontawesome/css/all.css}" rel="stylesheet">
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main style="margin-top: 58px;">
+    <div class="container-fluid mt-4 mb-5">
+        <h1>Referrals List</h1>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Referral ID</th>
+                <th>Patient</th>
+                <th>Referring Hospital</th>
+                <th>Receiving Hospital</th>
+                <th>Reason for Referral</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Iterate over the list of Referrals and display each one in a row -->
+            <tr th:each="referral : ${referrals}" style="cursor: pointer"
+            th:attr="onclick=|location.href='/referral/accept?referralId=' + ${referral.referralId}|"
+            >
+                <td th:text="${referral.referralId}"></td>
+                <td th:text="${referral.patient.person.username}"></td>
+                <td th:text="${referral.referringHospital.name}"></td>
+                <td th:text="${referral.receivingHospital.name}"></td>
+                <td th:text="${referral.reasonForReferral}"></td>
+                <td th:text="${referral.status}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer"></div>
+
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include the JavaScript file -->
+<script th:src="@{/js/nav-sidebar.js}"></script>
+</body>
+</html>
+
+

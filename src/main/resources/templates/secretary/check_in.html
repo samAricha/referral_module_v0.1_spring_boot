@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Records Page</title>
+  <link th:href = "@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href = "@{/css/style.css}" rel="stylesheet">
+  <link th:href = "@{/css/nav_bar.css}" rel="stylesheet">
+  <link th:href = "@{/fontawesome/css/all.css}" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<!-- Main Content -->
+<main style="margin-top: 80px;">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 text-center">
+        <h1>Choose Record Type!</h1>
+        <p>Click one of the buttons below to go to a different page:</p>
+        <a th:href="@{/secretary/check-in/registration/patient-registration}" class="btn btn-primary btn-lg btn-block mb-5">Registration</a>
+        <a th:href="@{/secretary/check-in/patients/start-visit}" class="btn btn-success btn-lg btn-block">Start Visit</a>
+      </div>
+    </div>
+  </div>
+
+  <div th:replace="fragments/footer :: footer"></div>
+
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include the JavaScript file -->
+<script th:src="@{/js/nav-sidebar.js}"></script>
+
+</body>
+</html>

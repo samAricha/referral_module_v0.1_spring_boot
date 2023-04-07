@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Thymeleaf Template</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href = "@{/css/nav_bar.css}" rel="stylesheet">
+    <link th:href = "@{/fontawesome/css/all.css}" rel="stylesheet">
+
+    <style>
+        .card {
+            margin-bottom: 10px;
+        }
+    </style>
+
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<main style="margin-top: 58px;">
+    <div class="container">
+        <h1>Search Services</h1>
+        <div class="row" style="padding-top: 58px;">
+            <div class="col-md-6 offset-md-3">
+                <table class="table">
+
+                    <thead>
+                    <tr>
+                        <th>Patient:</th>
+                        <th class="text-primary"  th:text="${person.username}"></th>
+                        <th class="text-primary"  th:text="${person.idNumber}"></th>
+                        <th class="text-primary"  th:text="${person.gender}"></th>
+                    </tr>
+
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+
+                <form class="my-5">
+                    <div class="form-group">
+                        <label for="level">Select Level:</label>
+                        <select class="form-control" id="level" name="level">
+                            <option value="">--Select Level--</option>
+                            <th:block th:each="level : ${levels}">
+                                <option th:value="${level.level}" th:text="${level.name}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row" id="services">
+
+            <!-- Services cards will be dynamically generated here -->
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+
+</main>
+
+
+<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
+<!--        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
+<!--        crossorigin="anonymous"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:src="@{/js/nav-sidebar.js}"></script>
+<script th:inline="javascript">
+    const person = /*[[${person}]]*/ null;
+    console.log(person.id);
+
+    $(document).ready(function () {
+
+        $("#level").change(function () {
+            const level = $("#level").val();
+            console.log(level);
+            if (level === "") {
+                $("#services").empty();
+                return;
+            }
+            axios.get('/physician/hospital-services', {
+                params: {
+                    level: parseInt(level)
+                }
+            })
+                .then(function (response) {
+                    const services = response.data;
+                    let servicesHtml = '';
+                    if (services.length === 0) {
+                        servicesHtml += '<div class="col-md-12"><p>No services found for this level.</p></div>';
+                    }
+                    for (var i = 0; i < services.length; i++) {
+                        servicesHtml += '<div class="col-md-4">' +
+                            '<div class="card mb-4 box-shadow">' +
+                            '<div class="card-body">' +
+                            '<h5 class="card-title">' + services[i].name + '</h5>' +
+                            '<button class="btn btn-primary select-service-btn rounded-pill" data-hospital-level="' + services[i].level.level + '">Select</button>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                    }
+                    $("#services").html(servicesHtml);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        });
+    });
+
+    $(document).on('click', '.select-service-btn', function() {
+
+        //const personId = parseInt(person.id);
+        //console.log(typeof personId)
+        const hospitalLevel = $(this).data('hospital-level');
+        window.location.href = 'referral-list?hospital_level=' +hospitalLevel+'&person_id='+person.id;
+        //window.location.href = 'patients/patient-queue';
+
+    });
+
+</script>
+</body>
+</html>
