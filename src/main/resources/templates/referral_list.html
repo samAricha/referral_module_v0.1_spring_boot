@@ -30,7 +30,7 @@
             <!-- Iterate over the list of Referrals and display each one in a row -->
             <tr th:each="referral : ${referrals}" style="cursor: pointer"
             th:attr="onclick=|location.href='/referral/accept?referralId=' + ${referral.referralId}|"
-         f   >
+            >
                 <td th:text="${referral.referralId}"></td>
                 <td th:text="${referral.patient.person.username}"></td>
                 <td th:text="${referral.referringHospital.name}"></td>

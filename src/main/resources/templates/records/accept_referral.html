@@ -17,7 +17,40 @@
 
     <div th:replace="fragments/header :: header"></div>
     <main style="margin-top: 58px;">
-        <h1>in the page</h1>
+        <div class="container mt-5">
+            <h1 class="text-center mb-5">Referral Acceptance/Refusal</h1>
+            <form th:action="@{/update-referral}" method="post">
+                <div class="form-group">
+                    <label for="patient-name">Patient Name</label>
+                    <input type="text" class="form-control" id="patient-name" name="patient-name" th:value="${referral.patient.name}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="referring-hospital">Referring Hospital</label>
+                    <input type="text" class="form-control" id="referring-hospital" name="referring-hospital" th:value="${referral.referringHospital.name}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="receiving-hospital">Receiving Hospital</label>
+                    <input type="text" class="form-control" id="receiving-hospital" name="receiving-hospital" th:value="${referral.receivingHospital.name}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="reason-for-referral">Reason for Referral</label>
+                    <textarea class="form-control" id="reason-for-referral" name="reason-for-referral" rows="3" th:text="${referral.reasonForReferral}" readonly></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="date-of-referral">Date of Referral</label>
+                    <input type="date" class="form-control" id="date-of-referral" name="date-of-referral" th:value="${referral.dateOfReferral}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="referral-status">Referral Status</label>
+                    <select class="form-control" id="referral-status" name="referral-status">
+                        <option value="ACCEPTED">Accepted</option>
+                        <option value="REFUSED">Refused</option>
+                    </select>
+                </div>
+                <input type="hidden" name="referral-id" th:value="${referral.referralId}">
+                <button type="submit" class="btn btn-primary">Update Referral</button>
+            </form>
+        </div>
 
         <div th:replace="fragments/footer :: footer"></div>
     </main>

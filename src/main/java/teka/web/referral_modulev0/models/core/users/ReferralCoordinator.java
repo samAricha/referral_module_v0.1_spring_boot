@@ -12,21 +12,23 @@ public class ReferralCoordinator {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int contactId;
+    private int Id;
 
     @OneToOne
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;
 
-    @Column(name = "contact_name")
+    @Column(name = "coordinator_name")
     private String contactName;
 
-    @Column(name = "contact_email")
+    @Column(name = "coordinator_email")
     private String contactEmail;
 
-    @Column(name = "contact_phone")
+    @Column(name = "coordinator_phone")
     private String contactPhone;
 
     @Column(name = "department")
     private String department;
+
+
 }

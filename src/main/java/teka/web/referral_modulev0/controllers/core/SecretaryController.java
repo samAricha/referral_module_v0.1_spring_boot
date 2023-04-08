@@ -122,6 +122,7 @@ public class SecretaryController {
         visit.setVisitType(VisitType.UNSCHEDULED);
         visit.setVisitStatus(VisitStatus.CHECKED_IN);
 
+
         recordsService.createVisit(visit);
 
         // Create a JSON response object

@@ -4,6 +4,7 @@ package teka.web.referral_modulev0.models.core;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 import teka.web.referral_modulev0.models.core.enums.VisitStatus;
 import teka.web.referral_modulev0.models.core.enums.VisitType;
 import teka.web.referral_modulev0.models.core.users.Person;
@@ -36,8 +37,9 @@ public class Visit {
     @Column(name = "visit_status", nullable = false)
     private VisitStatus visitStatus;
 
-    @CreationTimestamp
-    @Column(name = "visit_time", nullable = false, updatable = false)
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "visit_time", updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "visit_reason")

@@ -17,7 +17,7 @@ public class Referral {
     private Long referralId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "patient_id", nullable = false)
+    @JoinColumn(name = "patient_id", nullable = true)
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,22 +29,22 @@ public class Referral {
     private Hospital receivingHospital;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "appointment_id", nullable = true)
+    @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
     @OneToOne
-    @JoinColumn(name = "referring_visit_id", nullable = true)
+    @JoinColumn(name = "referring_visit_id")
     private Visit referringVisitId;
 
     @OneToOne
     @JoinColumn(name = "receiving_visit_id")
     private Visit receivingVisitId;
 
-    @Column(name = "reason_for_referral", nullable = false)
+    @Column(name = "reason_for_referral")
     private String reasonForReferral;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private ReferralStatus status;
 
     //HERE WE ARE TO ADD THE REFERRAL TYPE

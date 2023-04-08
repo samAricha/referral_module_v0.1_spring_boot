@@ -159,8 +159,8 @@ public class PhysicianController {
 
     @PostMapping("referral/refer")
     public String getHospital(@ModelAttribute("referralInfoDto") ReferralInfoDto referralInfoDto){
-        //Optional<Person> person = usersService.getPersonById(Long.valueOf(161));
-        Optional<Patient> patient = usersService.getPatientById(1);
+        //THIS IS MANUAL AND THEREFORE SHOULD BE FIXED
+        Optional<Patient> patient = usersService.getPatientById(20);
         //Patient patient = referralInfoDto.getPatient();
 
         Optional<Physician> physician = usersService.getPhysicianById(1L);
