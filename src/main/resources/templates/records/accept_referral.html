@@ -19,7 +19,7 @@
     <main style="margin-top: 58px;">
         <div class="container mt-5">
             <h1 class="text-center mb-5">Referral Acceptance/Refusal</h1>
-            <form th:action="@{/update-referral}" method="post">
+            <form th:action="@{/referral/referral-coordinator/accept-decline-referral}" method="post">
                 <div class="form-group">
                     <label for="patient-name">Patient Name</label>
                     <input type="text" class="form-control" id="patient-name" name="patient-name" th:value="${referral.patient.getPerson().getUsername()}" readonly>
@@ -40,17 +40,22 @@
                     <label for="date-of-referral">Date of Referral</label>
                     <input type="date" class="form-control" id="date-of-referral" name="date-of-referral" th:value="${referral.createdAt}" readonly>
                 </div>
-                <div class="form-group">
-                    <label for="referral-status">Referral Status</label>
-                    <select class="form-control" id="referral-status" name="referral-status">
-                        <option value="ACCEPTED">Accepted</option>
-                        <option value="REFUSED">Refused</option>
-                    </select>
+
+                <input type="hidden" th:name="referralId" th:value="${referral.referralId}" />
+
+                <div class="mb-3 d-flex justify-content-between align-items-center">
+                    <label class="form-label d-block">Approval Status</label>
+                    <div class="btn-group" role="group">
+                        <button type="submit" class="btn btn-success" name="status" value="ACCEPTED">Accept</button>
+                        <button type="submit" class="btn btn-danger" name="status" value="DECLINED">Decline</button>
+                    </div>
                 </div>
-                <input type="hidden" name="referral-id" th:value="${referral.referralId}">
-                <button type="submit" class="btn btn-primary">Update Referral</button>
+<!--                <div class="mb-3 text-end">-->
+<!--                    <button type="submit" class="btn btn-primary">Submit</button>-->
+<!--                </div>-->
             </form>
         </div>
+
 
         <div th:replace="fragments/footer :: footer"></div>
     </main>

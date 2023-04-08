@@ -60,6 +60,22 @@ public class ReferralController {
         return "records/accept_referral";
     }
 
+    @PostMapping("/referral-coordinator/accept-decline-referral")
+    public String updateReferral(@RequestParam Long referralId,
+                                 @ModelAttribute("status") ReferralStatus status) {
+        // Fetch the referral from the database using its ID
+        Referral referral = referralRepository.findById(referralId).get();
+
+        // Update the referral status
+        referral.setStatus(status);
+
+        // Save the updated referral to the database
+        referralRepository.save(referral);
+
+        // Redirect to a success page or display a success message
+        return "redirect:/referral/all";
+    }
+
 
 
 
