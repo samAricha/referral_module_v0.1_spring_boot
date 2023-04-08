@@ -7,6 +7,7 @@ import teka.web.referral_modulev0.models.core.enums.AppointmentType;
 import teka.web.referral_modulev0.models.core.users.Patient;
 import teka.web.referral_modulev0.models.core.users.Physician;
 import org.hibernate.annotations.CreationTimestamp;
+import teka.web.referral_modulev0.models.referral.Referral;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +23,10 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
+
+    @ManyToOne
+    @JoinColumn(name = "referral_id")
+    private Referral referral;
 
     @ManyToOne
     @JoinColumn(name = "physician_id")

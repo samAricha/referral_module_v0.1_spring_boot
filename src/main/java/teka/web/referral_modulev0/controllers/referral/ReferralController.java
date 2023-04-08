@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import teka.web.referral_modulev0.models.core.Appointment;
 import teka.web.referral_modulev0.models.core.Hospital;
+import teka.web.referral_modulev0.models.core.enums.AppointmentType;
 import teka.web.referral_modulev0.models.core.users.Patient;
 import teka.web.referral_modulev0.models.core.users.Person;
 import teka.web.referral_modulev0.models.core.users.Physician;
@@ -74,12 +76,33 @@ public class ReferralController {
 
         // Redirect to different pages depending on the referral status
         if (status == ReferralStatus.ACCEPTED) {
-            return "redirect:/referral/accepted";
+            return "redirect:/referral/accepted/" +referralId+ "/setup-appointment";
         } else if (status == ReferralStatus.DECLINED) {
             return "redirect:/referral/all";
         }
 
         // If the status is neither accepted nor declined, redirect to the default page
+        return "redirect:/referral/all";
+    }
+
+    @GetMapping("/accepted/{referralId}/setup-appointment")
+    public String showSetupAppointmentPage(@PathVariable Long referralId, Model model) {
+        Referral referral = referralRepository.findById(referralId).orElseThrow();
+
+        // Check if the referral has been accepted
+        if (referral.getStatus() == ReferralStatus.ACCEPTED) {
+            // Create a new appointment object and set its referral field
+            Appointment appointment = new Appointment();
+            appointment.setAppointmentType(AppointmentType.REFERRAL);
+            appointment.setReferral(referral);
+
+            // Add the appointment object to the model for the form to use
+            model.addAttribute("appointment", appointment);
+            return "/referral/referral_set_appointment";
+        }
+
+
+
         return "redirect:/referral/all";
     }
 
