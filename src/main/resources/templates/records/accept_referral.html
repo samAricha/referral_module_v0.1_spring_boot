@@ -22,7 +22,7 @@
             <form th:action="@{/update-referral}" method="post">
                 <div class="form-group">
                     <label for="patient-name">Patient Name</label>
-                    <input type="text" class="form-control" id="patient-name" name="patient-name" th:value="${referral.patient.name}" readonly>
+                    <input type="text" class="form-control" id="patient-name" name="patient-name" th:value="${referral.patient.getPerson().getUsername()}" readonly>
                 </div>
                 <div class="form-group">
                     <label for="referring-hospital">Referring Hospital</label>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group">
                     <label for="date-of-referral">Date of Referral</label>
-                    <input type="date" class="form-control" id="date-of-referral" name="date-of-referral" th:value="${referral.dateOfReferral}" readonly>
+                    <input type="date" class="form-control" id="date-of-referral" name="date-of-referral" th:value="${referral.createdAt}" readonly>
                 </div>
                 <div class="form-group">
                     <label for="referral-status">Referral Status</label>

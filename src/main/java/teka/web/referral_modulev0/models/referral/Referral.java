@@ -2,10 +2,13 @@ package teka.web.referral_modulev0.models.referral;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import teka.web.referral_modulev0.models.core.Appointment;
 import teka.web.referral_modulev0.models.core.Hospital;
 import teka.web.referral_modulev0.models.core.Visit;
 import teka.web.referral_modulev0.models.core.users.Patient;
+
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -47,7 +50,11 @@ public class Referral {
     @Column(name = "status")
     private ReferralStatus status;
 
-    //HERE WE ARE TO ADD THE REFERRAL TYPE
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "referral_time", updatable = false)
+    private LocalDateTime createdAt;
+
 
 
 }
