@@ -72,7 +72,14 @@ public class ReferralController {
         // Save the updated referral to the database
         referralRepository.save(referral);
 
-        // Redirect to a success page or display a success message
+        // Redirect to different pages depending on the referral status
+        if (status == ReferralStatus.ACCEPTED) {
+            return "redirect:/referral/accepted";
+        } else if (status == ReferralStatus.DECLINED) {
+            return "redirect:/referral/all";
+        }
+
+        // If the status is neither accepted nor declined, redirect to the default page
         return "redirect:/referral/all";
     }
 
