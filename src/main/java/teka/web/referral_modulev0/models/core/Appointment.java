@@ -9,7 +9,9 @@ import teka.web.referral_modulev0.models.core.users.Physician;
 import org.hibernate.annotations.CreationTimestamp;
 import teka.web.referral_modulev0.models.referral.Referral;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -32,8 +34,14 @@ public class Appointment {
     @JoinColumn(name = "physician_id")
     private Physician physician;
 
+//    @Column(name = "appointment_date")
+//    private LocalDateTime appointmentDate;
+
     @Column(name = "appointment_date")
-    private LocalDateTime appointmentDate;
+    private LocalDate appointmentDate;
+
+    @Column(name = "appointment_time")
+    private LocalTime appointmentTime;
 
     @Column(name = "appointment_type")
     @Enumerated(EnumType.STRING)
