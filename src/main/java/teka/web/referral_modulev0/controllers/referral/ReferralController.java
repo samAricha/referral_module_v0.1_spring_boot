@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.*;
 import teka.web.referral_modulev0.dto.AppointmentDto;
 import teka.web.referral_modulev0.models.core.Appointment;
 import teka.web.referral_modulev0.models.core.Hospital;
+import teka.web.referral_modulev0.models.core.enums.AppointmentStatus;
 import teka.web.referral_modulev0.models.core.enums.AppointmentType;
 import teka.web.referral_modulev0.models.core.users.Patient;
 import teka.web.referral_modulev0.models.core.users.Person;
 import teka.web.referral_modulev0.models.core.users.Physician;
 import teka.web.referral_modulev0.models.referral.Referral;
 import teka.web.referral_modulev0.models.referral.ReferralStatus;
+import teka.web.referral_modulev0.repositories.referral.AppointmentRepository;
 import teka.web.referral_modulev0.repositories.referral.ReferralRepository;
 import teka.web.referral_modulev0.services.core.HospitalLevelService;
 import teka.web.referral_modulev0.services.core.HospitalServicesService;
@@ -39,6 +41,8 @@ public class ReferralController {
     UsersService usersService;
     @Autowired
     ReferralRepository referralRepository;
+    @Autowired
+    AppointmentRepository appointmentRepository;
 
     @GetMapping("/trial")
     public String trial(){
@@ -122,9 +126,15 @@ public class ReferralController {
         Appointment appointment = new Appointment();
         appointment.setAppointmentDate(appointmentDto.getAppointment().getAppointmentDate());
         appointment.setAppointmentTime(appointmentDto.getAppointment().getAppointmentTime());
+        appointment.setPatient(appointmentDto.getReferral().getPatient());
+        appointment.setReferral(appointmentDto.getReferral());
+        {/*TODO: GETTING THE PHYSICIAN REFERRED TO */}
+        //appointment.setPhysician();
+        appointment.setAppointmentType(AppointmentType.REFERRAL);
+        appointment.setAppointmentStatus(AppointmentStatus.SCHEDULED);
 
-        System.out.println("INSIDE OUR SAVE APPOINTMENT CONTROLLER: "+appointmentDto.toString());
-        System.out.println("INSIDE OUR SAVE APPOINTMENT Referral id: "+appointmentDto.getReferral().getReferralId());
+        appointmentRepository.save(appointment);
+
         return "redirect:/referral/all"; // Return a success page or redirect
     }
 

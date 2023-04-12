@@ -37,8 +37,7 @@ public class Visit {
     @Column(name = "visit_status", nullable = false)
     private VisitStatus visitStatus;
 
-    @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     @Column(name = "visit_time", updatable = false)
     private LocalDateTime createdAt;
 

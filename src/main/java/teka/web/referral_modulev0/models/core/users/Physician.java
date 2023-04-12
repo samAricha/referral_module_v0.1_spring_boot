@@ -2,8 +2,11 @@ package teka.web.referral_modulev0.models.core.users;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import teka.web.referral_modulev0.dto.SubCountyDto;
 import teka.web.referral_modulev0.models.core.Hospital;
+
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -23,6 +26,10 @@ public class Physician {
     @OneToOne
     @JoinColumn(name = "hospital_id", referencedColumnName = "id")
     private Hospital hospital;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
 
 }

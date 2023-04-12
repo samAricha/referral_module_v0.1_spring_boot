@@ -2,7 +2,10 @@ package teka.web.referral_modulev0.models.core.utils;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import teka.web.referral_modulev0.models.core.users.Person;
+
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -33,4 +36,8 @@ public class Observation {
 
     @Column(name = "observation_unit")
     private String unit;
+
+    @CreationTimestamp
+    @Column(name = "encounter_date")
+    private LocalDate date;
 }

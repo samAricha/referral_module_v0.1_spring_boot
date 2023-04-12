@@ -10,6 +10,7 @@ import teka.web.referral_modulev0.dto.PatientDto;
 import teka.web.referral_modulev0.dto.PersonDto;
 import teka.web.referral_modulev0.dto.PhysicianDto;
 import teka.web.referral_modulev0.dto.SecretaryDto;
+import teka.web.referral_modulev0.models.core.Appointment;
 import teka.web.referral_modulev0.models.core.Hospital;
 import teka.web.referral_modulev0.models.core.Visit;
 import teka.web.referral_modulev0.models.core.enums.VisitStatus;
@@ -20,12 +21,14 @@ import teka.web.referral_modulev0.models.core.users.Physician;
 import teka.web.referral_modulev0.models.core.utils.Encounter;
 import teka.web.referral_modulev0.repositories.core.users.PatientRepository;
 import teka.web.referral_modulev0.repositories.core.users.PersonRepository;
+import teka.web.referral_modulev0.repositories.referral.AppointmentRepository;
 import teka.web.referral_modulev0.services.core.EncounterService;
 import teka.web.referral_modulev0.services.core.HospitalsService;
 import teka.web.referral_modulev0.services.core.RecordsService;
 import teka.web.referral_modulev0.services.core.UsersService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -44,6 +47,8 @@ public class SecretaryController {
     HospitalsService hospitalsService;
     @Autowired
     PersonRepository personRepository;
+    @Autowired
+    AppointmentRepository appointmentRepository;
 
 
     @GetMapping("/check-in")
@@ -93,11 +98,43 @@ public class SecretaryController {
         return "index";
     }
 
-
     @GetMapping("/check-in/patients/start-visit")
-    public String startEncounter(){
+    public String startVisit(){
 
         return "secretary/start_visit";
+
+    }
+
+
+
+
+    @GetMapping("/check-in/patients/choose-visit-type")
+    public String chooseVisitType(Model model){
+
+        model.addAttribute("APPOINTMENT", VisitType.APPOINTMENT);
+        return "secretary/check_in_type";
+
+    }
+
+
+    @GetMapping("/check-in/patients/visit-type-reroute")
+    public String rerouteToAppropriateVisit(@RequestParam("type") VisitType visitType){
+        if(visitType == VisitType.APPOINTMENT){
+            return "redirect:/secretary/check-in/patients/appointment";
+        }
+
+        return "secretary/check_in_type";
+
+    }
+
+    @GetMapping("/check-in/patients/appointment")
+    public String getAppointments(Model model) {
+
+        List<Appointment> appointments = appointmentRepository.findAll();
+        System.out.println("THESE ARE THE APPOINTMENTS" +appointments.get(0).getPhysician());
+        model.addAttribute("appointments", appointments);
+
+        return "secretary/appointments_page";
 
     }
 
@@ -130,6 +167,25 @@ public class SecretaryController {
         response.put("status", "Success");
 
         return ResponseEntity.ok().body(response);
+
+    }
+
+    @GetMapping("/check-in/patients/add-appointment-patient-to-queue")
+    public String addAppointmentPatientToQueue(@RequestParam("appointmentId") String appointmentId){
+
+        // Process the personToQueue object
+        Person personToQueue = appointmentRepository.getReferenceById(Long.valueOf(appointmentId)).getPatient().getPerson();
+        System.out.println(personToQueue.getUsername()+" UserHere!!");
+        Visit visit = new Visit();
+        visit.setSecretary(usersService.getSecretaryById(1).get());
+        visit.setPerson(personToQueue);
+        visit.setVisitType(VisitType.APPOINTMENT);
+        visit.setVisitStatus(VisitStatus.CHECKED_IN);
+
+
+        recordsService.createVisit(visit);
+
+        return "redirect:/records/visit-list";
 
     }
 }

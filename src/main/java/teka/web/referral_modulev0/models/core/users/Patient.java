@@ -2,6 +2,9 @@ package teka.web.referral_modulev0.models.core.users;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -22,6 +25,10 @@ public class Patient {
 
     @Column(name = "allergies")
     private String allergies;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
 }
 

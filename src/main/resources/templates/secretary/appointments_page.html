@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Check In Page</title>
+    <link th:href = "@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href = "@{/css/style.css}" rel="stylesheet">
+    <link th:href = "@{/css/nav_bar.css}" rel="stylesheet">
+    <link th:href = "@{/fontawesome/css/all.css}" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<!-- Main Content -->
+<main style="margin-top: 80px;">
+
+    <div class="container">
+        <h1>Appointment List</h1>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Patient Name</th>
+<!--                <th>Physician Name</th>-->
+                <th>Appointment Date</th>
+                <th>Appointment Time</th>
+                <th>Appointment Type</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="appointment : ${appointments}">
+                    <td th:text="${appointment.id}"></td>
+                    <td th:text="${appointment.patient.person.username}"></td>
+<!--                    <td th:text="${appointment.physician.person.username}"></td>-->
+                    <td th:text="${appointment.appointmentDate}"></td>
+                    <td th:text="${appointment.appointmentTime}"></td>
+                    <td th:text="${appointment.appointmentType}"></td>
+                    <td>
+                        <a th:href="@{/secretary/check-in/patients/add-appointment-patient-to-queue(appointmentId=${appointment.id})}" class="btn btn-primary">Add to Visit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+        <div th:replace="fragments/footer :: footer"></div>
+
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include the JavaScript file -->
+<script th:src="@{/js/nav-sidebar.js}"></script>
+
+</body>
+</html>

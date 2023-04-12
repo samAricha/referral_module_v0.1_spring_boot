@@ -2,7 +2,10 @@ package teka.web.referral_modulev0.models.core.users;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import teka.web.referral_modulev0.models.core.enums.Gender;
+
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -27,6 +30,10 @@ public class Person {
 
     @Column(name = "person_age")
     private Integer age;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
 
 }

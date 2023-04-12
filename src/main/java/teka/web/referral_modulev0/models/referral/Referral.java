@@ -7,6 +7,7 @@ import teka.web.referral_modulev0.models.core.Appointment;
 import teka.web.referral_modulev0.models.core.Hospital;
 import teka.web.referral_modulev0.models.core.Visit;
 import teka.web.referral_modulev0.models.core.users.Patient;
+import teka.web.referral_modulev0.models.core.users.Physician;
 
 import java.time.LocalDateTime;
 
@@ -45,6 +46,14 @@ public class Referral {
 
     @Column(name = "reason_for_referral")
     private String reasonForReferral;
+
+    @ManyToOne
+    @JoinColumn(name = "referring_physician")
+    private Physician referrringPhysician;
+
+    @ManyToOne
+    @JoinColumn(name = "receiving_physician")
+    private Physician receivingPhysician;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
